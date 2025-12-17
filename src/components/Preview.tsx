@@ -20,15 +20,46 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     ctx.fillStyle = settings.backgroundColor;
     ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
 
-    // テキストを描画
-    ctx.fillStyle = settings.textColor;
-    ctx.font = `${settings.fontSize}px ${settings.fontFamily}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    // テキストが空の場合は描画しない
+    if (!settings.text.trim()) return;
 
     // 複数行対応
     const lines = settings.text.split('\n');
-    const lineHeight = settings.fontSize * 1.2; // 行間を1.2倍に設定
+
+    // 自動フォントサイズ計算
+    const maxWidth = canvasSize.width * 0.9; // 余白を考慮して90%
+    const maxHeight = canvasSize.height * 0.9;
+    let fontSize = 100; // 初期値は大きめに設定
+    const lineHeightRatio = 1.2;
+
+    // フォントサイズを調整
+    while (fontSize > 1) {
+      ctx.font = `${fontSize}px ${settings.fontFamily}`;
+
+      // 最も長い行の幅を測定
+      const maxLineWidth = Math.max(
+        ...lines.map(line => ctx.measureText(line).width)
+      );
+
+      // 総高さを計算
+      const lineHeight = fontSize * lineHeightRatio;
+      const totalHeight = lines.length * lineHeight;
+
+      // 幅と高さの両方が収まるかチェック
+      if (maxLineWidth <= maxWidth && totalHeight <= maxHeight) {
+        break;
+      }
+
+      fontSize -= 1;
+    }
+
+    // テキストを描画
+    ctx.fillStyle = settings.textColor;
+    ctx.font = `${fontSize}px ${settings.fontFamily}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const lineHeight = fontSize * lineHeightRatio;
     const totalHeight = lines.length * lineHeight;
     const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
 

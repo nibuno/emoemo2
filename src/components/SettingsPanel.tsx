@@ -36,21 +36,6 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
       </div>
 
       <div className="mb-6">
-        <label htmlFor="fontSize" className="block text-sm font-medium text-gray-700 mb-2">
-          フォントサイズ: <span className="text-blue-600 font-semibold">{settings.fontSize}px</span>
-        </label>
-        <input
-          id="fontSize"
-          type="range"
-          min="20"
-          max="100"
-          value={settings.fontSize}
-          onChange={(e) => handleChange('fontSize', Number(e.target.value))}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-        />
-      </div>
-
-      <div className="mb-6">
         <label htmlFor="textColor" className="block text-sm font-medium text-gray-700 mb-2">
           文字色
         </label>

@@ -1,6 +1,5 @@
 export interface EmojiSettings {
   text: string;
-  fontSize: number;
   fontFamily: string;
   textColor: string;
   backgroundColor: string;
