@@ -32,6 +32,25 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     );
   }, [settings, canvasSize]);
 
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const fileName = settings.text ? `${settings.text}.png` : 'emoji.png';
+
+      link.href = url;
+      link.download = fileName;
+      link.click();
+
+      URL.revokeObjectURL(url);
+    }, 'image/png');
+  };
+
   return (
     <div className="p-6">
       <h2 className="text-xl font-semibold mb-6 text-gray-800">プレビュー</h2>
@@ -47,6 +66,14 @@ function Preview({ settings, canvasSize }: PreviewProps) {
       <p className="text-center mt-3 text-sm text-gray-500 font-medium">
         {canvasSize.width} × {canvasSize.height} px
       </p>
+      <div className="flex justify-center mt-6">
+        <button
+          onClick={handleDownload}
+          className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+        >
+          ダウンロード
+        </button>
+      </div>
     </div>
   );
 }
