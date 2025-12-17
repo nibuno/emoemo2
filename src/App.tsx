@@ -15,21 +15,21 @@ function App() {
   });
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>emoemo</h1>
+    <div className="flex flex-col h-screen bg-gray-50">
+      <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 shadow-lg">
+        <h1 className="text-2xl font-bold">emoemo</h1>
       </header>
-      <div className="app-content">
-        <div className="column">
+      <div className="flex flex-1 overflow-hidden">
+        <div className="w-80 flex-shrink-0 bg-white shadow-md overflow-y-auto">
           <SettingsPanel settings={settings} onSettingsChange={setSettings} />
         </div>
-        <div className="column">
+        <div className="flex-1 min-w-0 bg-gray-50 overflow-y-auto">
           <TextInput
             text={settings.text}
             onTextChange={(text) => setSettings({ ...settings, text })}
           />
         </div>
-        <div className="column">
+        <div className="w-96 flex-shrink-0 bg-white shadow-md overflow-y-auto">
           <Preview settings={settings} canvasSize={{ width: 128, height: 128 }} />
         </div>
       </div>

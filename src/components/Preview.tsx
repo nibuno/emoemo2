@@ -33,20 +33,18 @@ function Preview({ settings, canvasSize }: PreviewProps) {
   }, [settings, canvasSize]);
 
   return (
-    <div style={{ padding: '1rem' }}>
-      <h2>プレビュー</h2>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+    <div className="p-6">
+      <h2 className="text-xl font-semibold mb-6 text-gray-800">プレビュー</h2>
+      <div className="flex justify-center mt-4">
         <canvas
           ref={canvasRef}
           width={canvasSize.width}
           height={canvasSize.height}
-          style={{
-            border: '1px solid #ccc',
-            imageRendering: 'pixelated',
-          }}
+          className="border-2 border-gray-300 rounded-lg shadow-lg"
+          style={{ imageRendering: 'pixelated' }}
         />
       </div>
-      <p style={{ textAlign: 'center', marginTop: '0.5rem', color: '#666' }}>
+      <p className="text-center mt-3 text-sm text-gray-500 font-medium">
         {canvasSize.width} × {canvasSize.height} px
       </p>
     </div>

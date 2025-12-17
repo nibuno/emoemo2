@@ -14,18 +14,18 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
   };
 
   return (
-    <div style={{ padding: '1rem', borderRight: '1px solid #ccc' }}>
-      <h2>設定</h2>
+    <div className="p-6">
+      <h2 className="text-xl font-semibold mb-6 text-gray-800">設定</h2>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label htmlFor="fontFamily" style={{ display: 'block', marginBottom: '0.5rem' }}>
+      <div className="mb-6">
+        <label htmlFor="fontFamily" className="block text-sm font-medium text-gray-700 mb-2">
           フォント
         </label>
         <select
           id="fontFamily"
           value={settings.fontFamily}
           onChange={(e) => handleChange('fontFamily', e.target.value)}
-          style={{ width: '100%', padding: '0.5rem' }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="Arial">Arial</option>
           <option value="Verdana">Verdana</option>
@@ -35,9 +35,9 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
         </select>
       </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label htmlFor="fontSize" style={{ display: 'block', marginBottom: '0.5rem' }}>
-          フォントサイズ: {settings.fontSize}px
+      <div className="mb-6">
+        <label htmlFor="fontSize" className="block text-sm font-medium text-gray-700 mb-2">
+          フォントサイズ: <span className="text-blue-600 font-semibold">{settings.fontSize}px</span>
         </label>
         <input
           id="fontSize"
@@ -46,12 +46,12 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
           max="100"
           value={settings.fontSize}
           onChange={(e) => handleChange('fontSize', Number(e.target.value))}
-          style={{ width: '100%' }}
+          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
         />
       </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label htmlFor="textColor" style={{ display: 'block', marginBottom: '0.5rem' }}>
+      <div className="mb-6">
+        <label htmlFor="textColor" className="block text-sm font-medium text-gray-700 mb-2">
           文字色
         </label>
         <input
@@ -59,12 +59,12 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
           type="color"
           value={settings.textColor}
           onChange={(e) => handleChange('textColor', e.target.value)}
-          style={{ width: '100%', height: '2rem' }}
+          className="w-full h-12 border border-gray-300 rounded-lg cursor-pointer"
         />
       </div>
 
-      <div style={{ marginBottom: '1rem' }}>
-        <label htmlFor="backgroundColor" style={{ display: 'block', marginBottom: '0.5rem' }}>
+      <div className="mb-6">
+        <label htmlFor="backgroundColor" className="block text-sm font-medium text-gray-700 mb-2">
           背景色
         </label>
         <input
@@ -72,7 +72,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
           type="color"
           value={settings.backgroundColor}
           onChange={(e) => handleChange('backgroundColor', e.target.value)}
-          style={{ width: '100%', height: '2rem' }}
+          className="w-full h-12 border border-gray-300 rounded-lg cursor-pointer"
         />
       </div>
     </div>
