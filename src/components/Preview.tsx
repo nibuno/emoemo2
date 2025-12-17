@@ -25,11 +25,17 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     ctx.font = `${settings.fontSize}px ${settings.fontFamily}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(
-      settings.text,
-      canvasSize.width / 2,
-      canvasSize.height / 2
-    );
+
+    // 複数行対応
+    const lines = settings.text.split('\n');
+    const lineHeight = settings.fontSize * 1.2; // 行間を1.2倍に設定
+    const totalHeight = lines.length * lineHeight;
+    const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
+
+    lines.forEach((line, index) => {
+      const y = startY + index * lineHeight;
+      ctx.fillText(line, canvasSize.width / 2, y);
+    });
   }, [settings, canvasSize]);
 
   const handleDownload = () => {
