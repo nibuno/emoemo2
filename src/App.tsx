@@ -22,11 +22,13 @@ function App() {
         <div className="w-80 flex-shrink-0 bg-white shadow-md overflow-y-auto">
           <SettingsPanel settings={settings} onSettingsChange={setSettings} />
         </div>
-        <div className="flex-1 min-w-0 bg-gray-50 overflow-y-auto">
-          <TextInput
-            text={settings.text}
-            onTextChange={(text) => setSettings({ ...settings, text })}
-          />
+        <div className="flex-1 min-w-0 bg-gray-50 overflow-y-auto flex items-start justify-center">
+          <div className="w-full max-w-2xl">
+            <TextInput
+              text={settings.text}
+              onTextChange={(text) => setSettings({ ...settings, text })}
+            />
+          </div>
         </div>
         <div className="w-96 flex-shrink-0 bg-white shadow-md overflow-y-auto">
           <Preview settings={settings} canvasSize={{ width: 128, height: 128 }} />
