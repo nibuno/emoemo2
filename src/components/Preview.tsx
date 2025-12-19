@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import type { EmojiSettings, CanvasSize } from '../types';
+import { useEffect, useRef } from "react";
+import type { EmojiSettings, CanvasSize } from "../types";
 
 interface PreviewProps {
   settings: EmojiSettings;
@@ -13,7 +13,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Canvasをクリア
@@ -24,7 +24,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     if (!settings.text.trim()) return;
 
     // 複数行対応
-    const lines = settings.text.split('\n');
+    const lines = settings.text.split("\n");
 
     // 自動フォントサイズ計算
     const maxWidth = canvasSize.width * 0.9; // 余白を考慮して90%
@@ -38,7 +38,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
       // 最も長い行の幅を測定
       const maxLineWidth = Math.max(
-        ...lines.map(line => ctx.measureText(line).width)
+        ...lines.map((line) => ctx.measureText(line).width),
       );
 
       // 総高さを計算
@@ -56,8 +56,8 @@ function Preview({ settings, canvasSize }: PreviewProps) {
     // テキストを描画
     ctx.fillStyle = settings.textColor;
     ctx.font = `${fontSize}px ${settings.fontFamily}`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
     const lineHeight = fontSize * lineHeightRatio;
     const totalHeight = lines.length * lineHeight;
@@ -77,15 +77,15 @@ function Preview({ settings, canvasSize }: PreviewProps) {
       if (!blob) return;
 
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      const fileName = settings.text ? `${settings.text}.png` : 'emoji.png';
+      const link = document.createElement("a");
+      const fileName = settings.text ? `${settings.text}.png` : "emoji.png";
 
       link.href = url;
       link.download = fileName;
       link.click();
 
       URL.revokeObjectURL(url);
-    }, 'image/png');
+    }, "image/png");
   };
 
   return (
@@ -97,7 +97,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
           width={canvasSize.width}
           height={canvasSize.height}
           className="border-2 border-gray-300 rounded-lg shadow-lg"
-          style={{ imageRendering: 'pixelated' }}
+          style={{ imageRendering: "pixelated" }}
         />
       </div>
       <p className="text-center mt-3 text-sm text-gray-500 font-medium">
@@ -106,7 +106,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
       <div className="flex justify-center mt-6">
         <button
           onClick={handleDownload}
-          className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+          className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-200"
         >
           ダウンロード
         </button>

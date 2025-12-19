@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import './App.css';
-import SettingsPanel from './components/SettingsPanel';
-import TextInput from './components/TextInput';
-import Preview from './components/Preview';
-import type { EmojiSettings } from './types';
+import { useState } from "react";
+import "./App.css";
+import SettingsPanel from "./components/SettingsPanel";
+import TextInput from "./components/TextInput";
+import Preview from "./components/Preview";
+import type { EmojiSettings } from "./types";
 
 function App() {
   const [settings, setSettings] = useState<EmojiSettings>({
-    text: '',
-    fontFamily: 'Arial',
-    textColor: '#000000',
-    backgroundColor: '#ffffff',
+    text: "",
+    fontFamily: "Arial",
+    textColor: "#000000",
+    backgroundColor: "#ffffff",
   });
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 shadow-lg">
-        <h1 className="text-2xl font-bold">emoemo</h1>
+      <header className="bg-white border-b border-gray-200 py-4 px-6">
+        <h1 className="text-2xl font-bold text-gray-900">emoemo</h1>
       </header>
       <div className="flex flex-1 overflow-hidden">
         <div className="w-80 flex-shrink-0 bg-white shadow-md overflow-y-auto">
@@ -31,7 +31,10 @@ function App() {
           </div>
         </div>
         <div className="w-96 flex-shrink-0 bg-white shadow-md overflow-y-auto">
-          <Preview settings={settings} canvasSize={{ width: 128, height: 128 }} />
+          <Preview
+            settings={settings}
+            canvasSize={{ width: 128, height: 128 }}
+          />
         </div>
       </div>
     </div>
