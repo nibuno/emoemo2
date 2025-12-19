@@ -8,7 +8,7 @@ import type { EmojiSettings } from "./types";
 function App() {
   const [settings, setSettings] = useState<EmojiSettings>({
     text: "",
-    fontFamily: "Arial",
+    fontFamily: "'Noto Sans JP'",
     textColor: "#000000",
     backgroundColor: "#ffffff",
   });

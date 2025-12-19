@@ -27,11 +27,9 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
           onChange={(e) => handleChange('fontFamily', e.target.value)}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
-          <option value="Arial">Arial</option>
-          <option value="Verdana">Verdana</option>
-          <option value="Georgia">Georgia</option>
-          <option value="'Courier New'">Courier New</option>
-          <option value="'Times New Roman'">Times New Roman</option>
+          <option value="'Noto Sans JP'">ゴシック</option>
+          <option value="'M PLUS Rounded 1c'">丸ゴシック</option>
+          <option value="'Noto Serif JP'">明朝体</option>
         </select>
       </div>
 
