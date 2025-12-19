@@ -18,19 +18,32 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
       <h2 className="text-xl font-semibold mb-6 text-gray-800">設定</h2>
 
       <div className="mb-6">
-        <label htmlFor="fontFamily" className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           フォント
         </label>
-        <select
-          id="fontFamily"
-          value={settings.fontFamily}
-          onChange={(e) => handleChange('fontFamily', e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        >
-          <option value="'Noto Sans JP'">ゴシック</option>
-          <option value="'M PLUS Rounded 1c'">丸ゴシック</option>
-          <option value="'Noto Serif JP'">明朝体</option>
-        </select>
+        <div className="flex rounded-lg overflow-hidden border border-gray-300">
+          {[
+            { value: "'Noto Sans JP'", label: 'ゴシック' },
+            { value: "'M PLUS Rounded 1c'", label: '丸ゴシック' },
+            { value: "'Noto Serif JP'", label: '明朝体' },
+          ].map((font, index) => (
+            <button
+              key={font.value}
+              type="button"
+              onClick={() => handleChange('fontFamily', font.value)}
+              style={{ fontFamily: font.value }}
+              className={`flex-1 px-3 py-2 text-sm whitespace-nowrap transition-colors ${
+                index !== 0 ? 'border-l border-gray-300' : ''
+              } ${
+                settings.fontFamily === font.value
+                  ? 'bg-teal-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              {font.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="mb-6">
