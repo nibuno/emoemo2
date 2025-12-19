@@ -34,7 +34,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
     // フォントサイズを調整
     while (fontSize > 1) {
-      ctx.font = `${fontSize}px ${settings.fontFamily}`;
+      ctx.font = `700 ${fontSize}px ${settings.fontFamily}`;
 
       // 最も長い行の幅を測定
       const maxLineWidth = Math.max(
@@ -55,7 +55,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
     // テキストを描画
     ctx.fillStyle = settings.textColor;
-    ctx.font = `${fontSize}px ${settings.fontFamily}`;
+    ctx.font = `700 ${fontSize}px ${settings.fontFamily}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 

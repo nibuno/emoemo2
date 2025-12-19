@@ -31,7 +31,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
               key={font.value}
               type="button"
               onClick={() => handleChange('fontFamily', font.value)}
-              style={{ fontFamily: font.value }}
+              style={{ fontFamily: font.value, fontWeight: 700 }}
               className={`flex-1 px-3 py-2 text-sm whitespace-nowrap transition-colors ${
                 index !== 0 ? 'border-l border-gray-300' : ''
               } ${
