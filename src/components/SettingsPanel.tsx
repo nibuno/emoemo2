@@ -26,7 +26,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
             { value: "'Noto Sans JP'", label: 'ゴシック' },
             { value: "'M PLUS Rounded 1c'", label: '丸ゴシック' },
             { value: "'Noto Serif JP'", label: '明朝体' },
-            { value: "'Dela Gothic One'", label: '極太' },
+            { value: "'Zen Kaku Gothic New'", label: 'モダン' },
             { value: "'Mochiy Pop One'", label: 'ポップ' },
             { value: "'Hachi Maru Pop'", label: '手書き' },
           ].map((font) => (
