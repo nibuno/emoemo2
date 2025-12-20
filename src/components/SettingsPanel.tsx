@@ -76,18 +76,6 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
         </div>
       </div>
 
-      <div className="mb-6">
-        <label htmlFor="backgroundColor" className="block text-sm font-medium text-gray-700 mb-2">
-          背景色
-        </label>
-        <input
-          id="backgroundColor"
-          type="color"
-          value={settings.backgroundColor}
-          onChange={(e) => handleChange('backgroundColor', e.target.value)}
-          className="w-full h-12 border border-gray-300 rounded-lg cursor-pointer"
-        />
-      </div>
     </div>
   );
 }
