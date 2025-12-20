@@ -99,13 +99,15 @@ function Preview({ settings, canvasSize }: PreviewProps) {
           style={{ imageRendering: "pixelated" }}
         />
       </div>
-      <p className="text-center mt-3 text-sm text-gray-500 font-medium">
-        {canvasSize.width} × {canvasSize.height} px
-      </p>
       <div className="flex justify-center mt-6">
         <button
           onClick={handleDownload}
-          className="px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-200"
+          disabled={!settings.text.trim()}
+          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition-colors duration-200 ${
+            settings.text.trim()
+              ? 'bg-teal-600 text-white hover:bg-teal-700 cursor-pointer'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
         >
           ダウンロード
         </button>
