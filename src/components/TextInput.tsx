@@ -6,7 +6,6 @@ interface TextInputProps {
 function TextInput({ text, onTextChange }: TextInputProps) {
   return (
     <div className="p-6 h-full flex flex-col">
-      <h2 className="text-xl font-semibold mb-6 text-gray-800">テキスト入力</h2>
       <textarea
         value={text}
         onChange={(e) => onTextChange(e.target.value)}

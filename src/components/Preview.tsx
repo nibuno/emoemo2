@@ -90,8 +90,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold mb-6 text-gray-800">プレビュー</h2>
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center">
         <canvas
           ref={canvasRef}
           width={canvasSize.width}

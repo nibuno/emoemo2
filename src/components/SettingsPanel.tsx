@@ -15,8 +15,6 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold mb-6 text-gray-800">設定</h2>
-
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           フォント
