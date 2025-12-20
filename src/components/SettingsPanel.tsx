@@ -47,16 +47,33 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
       </div>
 
       <div className="mb-6">
-        <label htmlFor="textColor" className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
           文字色
         </label>
-        <input
-          id="textColor"
-          type="color"
-          value={settings.textColor}
-          onChange={(e) => handleChange('textColor', e.target.value)}
-          className="w-full h-12 border border-gray-300 rounded-lg cursor-pointer"
-        />
+        <div className="flex gap-2">
+          {[
+            { value: '#000000', label: '黒' },
+            { value: '#DC2626', label: '赤' },
+            { value: '#2563EB', label: '青' },
+            { value: '#16A34A', label: '緑' },
+            { value: '#EA580C', label: 'オレンジ' },
+            { value: '#9333EA', label: '紫' },
+            { value: '#EC4899', label: 'ピンク' },
+          ].map((color) => (
+            <button
+              key={color.value}
+              type="button"
+              onClick={() => handleChange('textColor', color.value)}
+              title={color.label}
+              className={`w-8 h-8 rounded-full transition-all ${
+                settings.textColor === color.value
+                  ? 'ring-2 ring-offset-2 ring-teal-600'
+                  : 'hover:scale-110'
+              }`}
+              style={{ backgroundColor: color.value }}
+            />
+          ))}
+        </div>
       </div>
 
       <div className="mb-6">
