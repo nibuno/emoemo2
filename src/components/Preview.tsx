@@ -114,13 +114,27 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
       <button
         onClick={handleDownload}
         disabled={!settings.text.trim()}
-        className={`mt-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200 ${
+        className={`mt-2 p-2 rounded-lg transition-colors duration-200 ${
           settings.text.trim()
             ? 'bg-teal-600 text-white hover:bg-teal-700 cursor-pointer'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
         }`}
+        title="ダウンロード"
       >
-        ダウンロード
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
       </button>
     </div>
   );
