@@ -35,12 +35,15 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
         <div className="grid grid-cols-4 gap-3">
           {[
             { value: '#000000', label: '黒' },
-            { value: '#DC2626', label: '赤' },
-            { value: '#2563EB', label: '青' },
+            { value: '#FF0000', label: '赤' },
+            { value: '#EAB308', label: '黄' },
+            { value: '#84CC16', label: '黄緑' },
             { value: '#16A34A', label: '緑' },
-            { value: '#EA580C', label: 'オレンジ' },
+            { value: '#06B6D4', label: '水色' },
+            { value: '#2563EB', label: '青' },
             { value: '#9333EA', label: '紫' },
             { value: '#EC4899', label: 'ピンク' },
+            { value: '#EA580C', label: 'オレンジ' },
           ].map((color) => (
             <button
               key={color.value}
