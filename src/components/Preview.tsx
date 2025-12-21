@@ -1,12 +1,20 @@
 import { useEffect, useRef } from "react";
-import type { EmojiSettings, CanvasSize } from "../types";
+import type { CanvasSize } from "../types";
 
-interface PreviewProps {
-  settings: EmojiSettings;
-  canvasSize: CanvasSize;
+interface PreviewSettings {
+  text: string;
+  textColor: string;
+  backgroundColor: string;
 }
 
-function Preview({ settings, canvasSize }: PreviewProps) {
+interface PreviewProps {
+  settings: PreviewSettings;
+  canvasSize: CanvasSize;
+  fontFamily: string;
+  fontLabel: string;
+}
+
+function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -34,7 +42,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
     // フォントサイズを調整
     while (fontSize > 1) {
-      ctx.font = `700 ${fontSize}px ${settings.fontFamily}`;
+      ctx.font = `700 ${fontSize}px ${fontFamily}`;
 
       // 最も長い行の幅を測定
       const maxLineWidth = Math.max(
@@ -55,7 +63,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
 
     // テキストを描画
     ctx.fillStyle = settings.textColor;
-    ctx.font = `700 ${fontSize}px ${settings.fontFamily}`;
+    ctx.font = `700 ${fontSize}px ${fontFamily}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -67,7 +75,7 @@ function Preview({ settings, canvasSize }: PreviewProps) {
       const y = startY + index * lineHeight;
       ctx.fillText(line, canvasSize.width / 2, y);
     });
-  }, [settings, canvasSize]);
+  }, [settings, canvasSize, fontFamily]);
 
   const handleDownload = () => {
     const canvas = canvasRef.current;
@@ -89,29 +97,31 @@ function Preview({ settings, canvasSize }: PreviewProps) {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-center">
-        <canvas
-          ref={canvasRef}
-          width={canvasSize.width}
-          height={canvasSize.height}
-          className="border-2 border-gray-300 rounded-lg shadow-lg"
-          style={{ imageRendering: "pixelated" }}
-        />
+    <div className="flex flex-col items-center">
+      <div
+        className="text-sm font-medium text-gray-700 mb-2"
+        style={{ fontFamily, fontWeight: 700 }}
+      >
+        {fontLabel}
       </div>
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={handleDownload}
-          disabled={!settings.text.trim()}
-          className={`px-6 py-3 font-semibold rounded-lg shadow-md transition-colors duration-200 ${
-            settings.text.trim()
-              ? 'bg-teal-600 text-white hover:bg-teal-700 cursor-pointer'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-          }`}
-        >
-          ダウンロード
-        </button>
-      </div>
+      <canvas
+        ref={canvasRef}
+        width={canvasSize.width}
+        height={canvasSize.height}
+        className="border-2 border-gray-300 rounded-lg shadow-md"
+        style={{ imageRendering: "pixelated" }}
+      />
+      <button
+        onClick={handleDownload}
+        disabled={!settings.text.trim()}
+        className={`mt-2 px-4 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200 ${
+          settings.text.trim()
+            ? 'bg-teal-600 text-white hover:bg-teal-700 cursor-pointer'
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+        }`}
+      >
+        ダウンロード
+      </button>
     </div>
   );
 }

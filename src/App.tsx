@@ -1,8 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import SettingsPanel from "./components/SettingsPanel";
-import TextInput from "./components/TextInput";
-import Preview from "./components/Preview";
+import PreviewGrid from "./components/PreviewGrid";
 import type { EmojiSettings } from "./types";
 
 function App() {
@@ -19,19 +18,11 @@ function App() {
         <h1 className="text-2xl font-bold text-gray-900">emoemo</h1>
       </header>
       <div className="flex flex-1 overflow-hidden">
-        <div className="w-80 flex-shrink-0 bg-white shadow-md overflow-y-auto">
+        <div className="w-72 flex-shrink-0 bg-white shadow-md overflow-y-auto">
           <SettingsPanel settings={settings} onSettingsChange={setSettings} />
         </div>
-        <div className="flex-1 min-w-0 bg-gray-50 overflow-y-auto flex items-start justify-center">
-          <div className="w-full max-w-2xl">
-            <TextInput
-              text={settings.text}
-              onTextChange={(text) => setSettings({ ...settings, text })}
-            />
-          </div>
-        </div>
-        <div className="w-96 flex-shrink-0 bg-white shadow-md overflow-y-auto">
-          <Preview
+        <div className="flex-1 min-w-0 bg-gray-50 overflow-y-auto">
+          <PreviewGrid
             settings={settings}
             canvasSize={{ width: 128, height: 128 }}
           />
