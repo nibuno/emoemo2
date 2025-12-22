@@ -22,7 +22,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
         emoemo
       </h1>
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-bold text-gray-700 mb-2">
           テキスト
         </label>
         <textarea
@@ -35,7 +35,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-bold text-gray-700 mb-2">
           文字色
         </label>
         <div className="grid grid-cols-4 gap-3">
