@@ -28,7 +28,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
         <textarea
           value={settings.text}
           onChange={(e) => handleChange('text', e.target.value)}
-          placeholder="好きなテキストを入力..."
+          placeholder={"テキストを\n入力してね"}
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none text-sm"
           rows={3}
         />
