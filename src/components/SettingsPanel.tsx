@@ -15,6 +15,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
 
   return (
     <div className="px-12 py-6">
+      <h1 className="text-2xl font-bold text-gray-900 mb-6">emoemo</h1>
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           テキスト
