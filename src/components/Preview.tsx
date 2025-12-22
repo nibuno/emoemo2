@@ -117,9 +117,10 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
         disabled={!settings.text.trim()}
         className={`mt-2 p-2 rounded-lg transition-colors duration-200 ${
           settings.text.trim()
-            ? 'bg-teal-600 text-white hover:bg-teal-700 cursor-pointer'
+            ? 'text-white cursor-pointer'
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'
         }`}
+        style={settings.text.trim() ? { backgroundColor: settings.textColor } : undefined}
         title="ダウンロード"
       >
         <svg

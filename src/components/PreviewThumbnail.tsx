@@ -81,10 +81,12 @@ function PreviewThumbnail({
       type="button"
       onClick={onClick}
       className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
-        isSelected
-          ? "bg-teal-100 ring-2 ring-teal-600"
-          : "bg-gray-50 hover:bg-gray-100"
+        isSelected ? "" : "bg-gray-50 hover:bg-gray-100"
       }`}
+      style={isSelected ? {
+        boxShadow: `0 0 0 2px ${settings.textColor}`,
+        backgroundColor: `${settings.textColor}15`
+      } : undefined}
     >
       <canvas
         ref={canvasRef}

@@ -24,7 +24,7 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
           value={settings.text}
           onChange={(e) => handleChange('text', e.target.value)}
           placeholder="好きなテキストを入力..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none text-sm"
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none text-sm"
           rows={3}
         />
       </div>
@@ -53,10 +53,15 @@ function SettingsPanel({ settings, onSettingsChange }: SettingsPanelProps) {
               title={color.label}
               className={`w-8 h-8 rounded-full transition-all ${
                 settings.textColor === color.value
-                  ? 'ring-2 ring-offset-2 ring-teal-600'
+                  ? 'ring-offset-2'
                   : 'hover:scale-110'
               }`}
-              style={{ backgroundColor: color.value }}
+              style={{
+                backgroundColor: color.value,
+                boxShadow: settings.textColor === color.value
+                  ? `0 0 0 2px white, 0 0 0 4px ${color.value}`
+                  : undefined
+              }}
             />
           ))}
         </div>
