@@ -28,11 +28,12 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
     ctx.fillStyle = settings.backgroundColor;
     ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
 
-    // テキストが空の場合は描画しない
-    if (!settings.text.trim()) return;
+    // テキストが空の場合はプレースホルダーを表示
+    const isEmpty = !settings.text.trim();
+    const displayText = isEmpty ? "テキストを\n入力してね" : settings.text;
 
     // 複数行対応
-    const lines = settings.text.split("\n");
+    const lines = displayText.split("\n");
 
     // 自動フォントサイズ計算
     const maxWidth = canvasSize.width * 0.9; // 余白を考慮して90%
@@ -61,8 +62,8 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
       fontSize -= 1;
     }
 
-    // テキストを描画
-    ctx.fillStyle = settings.textColor;
+    // テキストを描画（プレースホルダーの場合は薄いグレー）
+    ctx.fillStyle = isEmpty ? "#aaaaaa" : settings.textColor;
     ctx.font = `700 ${fontSize}px ${fontFamily}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
