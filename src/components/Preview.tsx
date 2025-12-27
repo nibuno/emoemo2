@@ -35,32 +35,33 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
     // 複数行対応
     const lines = displayText.split("\n");
 
-    // 自動フォントサイズ計算
-    const maxWidth = canvasSize.width * 0.9; // 余白を考慮して90%
-    const maxHeight = canvasSize.height * 0.9;
-    let fontSize = 100; // 初期値は大きめに設定
-    const lineHeightRatio = 1.2;
+    // 自動フォントサイズ計算（高さ優先：できるだけ大きく表示し、横幅が溢れる場合のみ圧縮）
+    const maxWidth = canvasSize.width * 0.95;
+    const maxHeight = canvasSize.height * 0.95;
+    let fontSize = 200; // 初期値は大きめに設定
+    const lineHeightRatio = 1.15;
 
-    // フォントサイズを調整
+    // フォントサイズを調整（縦方向のみ考慮）
     while (fontSize > 1) {
       ctx.font = `700 ${fontSize}px ${fontFamily}`;
 
-      // 最も長い行の幅を測定
-      const maxLineWidth = Math.max(
-        ...lines.map((line) => ctx.measureText(line).width),
-      );
-
-      // 総高さを計算
       const lineHeight = fontSize * lineHeightRatio;
       const totalHeight = lines.length * lineHeight;
 
-      // 幅と高さの両方が収まるかチェック
-      if (maxLineWidth <= maxWidth && totalHeight <= maxHeight) {
+      // 高さが収まればOK（横幅は後でscaleXで調整）
+      if (totalHeight <= maxHeight) {
         break;
       }
 
       fontSize -= 1;
     }
+
+    // 横幅をチェックしてscaleXを計算
+    ctx.font = `700 ${fontSize}px ${fontFamily}`;
+    const maxLineWidth = Math.max(
+      ...lines.map((line) => ctx.measureText(line).width),
+    );
+    const scaleX = maxLineWidth > maxWidth ? maxWidth / maxLineWidth : 1;
 
     // テキストを描画（プレースホルダーの場合は薄いグレー）
     ctx.fillStyle = isEmpty ? "#aaaaaa" : settings.textColor;
@@ -72,10 +73,15 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
     const totalHeight = lines.length * lineHeight;
     const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
 
+    // 横方向圧縮を適用して描画
+    ctx.save();
+    ctx.translate(canvasSize.width / 2, 0);
+    ctx.scale(scaleX, 1);
     lines.forEach((line, index) => {
       const y = startY + index * lineHeight;
-      ctx.fillText(line, canvasSize.width / 2, y);
+      ctx.fillText(line, 0, y);
     });
+    ctx.restore();
   }, [settings, canvasSize, fontFamily]);
 
   const handleDownload = () => {

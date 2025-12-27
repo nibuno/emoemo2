@@ -40,25 +40,31 @@ function PreviewThumbnail({
     const isEmpty = !settings.text.trim();
     const displayText = isEmpty ? "テキストを\n入力してね" : settings.text;
 
+    // 自動フォントサイズ計算（高さ優先：できるだけ大きく表示し、横幅が溢れる場合のみ圧縮）
     const lines = displayText.split("\n");
-    const maxWidth = canvasSize.width * 0.9;
-    const maxHeight = canvasSize.height * 0.9;
-    let fontSize = 100;
-    const lineHeightRatio = 1.2;
+    const maxWidth = canvasSize.width * 0.95;
+    const maxHeight = canvasSize.height * 0.95;
+    let fontSize = 200;
+    const lineHeightRatio = 1.15;
 
+    // フォントサイズを調整（縦方向のみ考慮）
     while (fontSize > 1) {
       ctx.font = `700 ${fontSize}px ${fontFamily}`;
-      const maxLineWidth = Math.max(
-        ...lines.map((line) => ctx.measureText(line).width)
-      );
       const lineHeight = fontSize * lineHeightRatio;
       const totalHeight = lines.length * lineHeight;
 
-      if (maxLineWidth <= maxWidth && totalHeight <= maxHeight) {
+      if (totalHeight <= maxHeight) {
         break;
       }
       fontSize -= 1;
     }
+
+    // 横幅をチェックしてscaleXを計算
+    ctx.font = `700 ${fontSize}px ${fontFamily}`;
+    const maxLineWidth = Math.max(
+      ...lines.map((line) => ctx.measureText(line).width)
+    );
+    const scaleX = maxLineWidth > maxWidth ? maxWidth / maxLineWidth : 1;
 
     // プレースホルダーの場合は薄いグレー
     ctx.fillStyle = isEmpty ? "#aaaaaa" : settings.textColor;
@@ -70,10 +76,15 @@ function PreviewThumbnail({
     const totalHeight = lines.length * lineHeight;
     const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
 
+    // 横方向圧縮を適用して描画
+    ctx.save();
+    ctx.translate(canvasSize.width / 2, 0);
+    ctx.scale(scaleX, 1);
     lines.forEach((line, index) => {
       const y = startY + index * lineHeight;
-      ctx.fillText(line, canvasSize.width / 2, y);
+      ctx.fillText(line, 0, y);
     });
+    ctx.restore();
   }, [settings, canvasSize, fontFamily]);
 
   return (
