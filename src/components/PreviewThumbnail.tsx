@@ -33,6 +33,12 @@ function PreviewThumbnail({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // 高解像度ディスプレイ対応
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvasSize.width * dpr;
+    canvas.height = canvasSize.height * dpr;
+    ctx.scale(dpr, dpr);
+
     ctx.fillStyle = settings.backgroundColor;
     ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
 
@@ -101,10 +107,8 @@ function PreviewThumbnail({
     >
       <canvas
         ref={canvasRef}
-        width={canvasSize.width}
-        height={canvasSize.height}
         className="rounded border border-gray-200"
-        style={{ width: 64, height: 64, imageRendering: "pixelated" }}
+        style={{ width: 64, height: 64 }}
       />
       <span
         className="mt-1 text-xs text-gray-600"

@@ -24,6 +24,12 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // 高解像度ディスプレイ対応
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvasSize.width * dpr;
+    canvas.height = canvasSize.height * dpr;
+    ctx.scale(dpr, dpr);
+
     // Canvasをクリア
     ctx.fillStyle = settings.backgroundColor;
     ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
@@ -85,20 +91,62 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
   }, [settings, canvasSize, fontFamily]);
 
   const handleDownload = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    // ダウンロード用に128x128固定のCanvasを作成
+    const downloadCanvas = document.createElement("canvas");
+    downloadCanvas.width = canvasSize.width;
+    downloadCanvas.height = canvasSize.height;
+    const ctx = downloadCanvas.getContext("2d");
+    if (!ctx) return;
 
-    canvas.toBlob((blob) => {
+    // 背景を描画
+    ctx.fillStyle = settings.backgroundColor;
+    ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
+
+    // テキスト描画（表示用と同じロジック）
+    const lines = settings.text.split("\n");
+    const maxWidth = canvasSize.width * 0.95;
+    const maxHeight = canvasSize.height * 0.95;
+    let fontSize = 200;
+    const lineHeightRatio = 1.15;
+
+    while (fontSize > 1) {
+      ctx.font = `700 ${fontSize}px ${fontFamily}`;
+      const lineHeight = fontSize * lineHeightRatio;
+      const totalHeight = lines.length * lineHeight;
+      if (totalHeight <= maxHeight) break;
+      fontSize -= 1;
+    }
+
+    ctx.font = `700 ${fontSize}px ${fontFamily}`;
+    const maxLineWidth = Math.max(...lines.map((line) => ctx.measureText(line).width));
+    const scaleX = maxLineWidth > maxWidth ? maxWidth / maxLineWidth : 1;
+
+    ctx.fillStyle = settings.textColor;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    const lineHeight = fontSize * lineHeightRatio;
+    const totalHeight = lines.length * lineHeight;
+    const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
+
+    ctx.save();
+    ctx.translate(canvasSize.width / 2, 0);
+    ctx.scale(scaleX, 1);
+    lines.forEach((line, index) => {
+      const y = startY + index * lineHeight;
+      ctx.fillText(line, 0, y);
+    });
+    ctx.restore();
+
+    // ダウンロード実行
+    downloadCanvas.toBlob((blob) => {
       if (!blob) return;
-
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       const fileName = settings.text ? `${settings.text}.png` : "emoji.png";
-
       link.href = url;
       link.download = fileName;
       link.click();
-
       URL.revokeObjectURL(url);
     }, "image/png");
   };
@@ -113,10 +161,8 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
       </div>
       <canvas
         ref={canvasRef}
-        width={canvasSize.width}
-        height={canvasSize.height}
         className="border-2 border-gray-300 rounded-lg shadow-md"
-        style={{ imageRendering: "pixelated" }}
+        style={{ width: canvasSize.width, height: canvasSize.height }}
       />
       <button
         onClick={handleDownload}
