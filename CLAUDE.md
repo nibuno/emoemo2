@@ -8,6 +8,15 @@
 - 目的: TypeScript学習 & 趣味開発
 - 優先度: 動くものを作る < TypeScriptの型を意識した学習
 
+## 開発コマンド
+
+```bash
+npm run dev      # 開発サーバー起動 → http://localhost:5173/emoemo2/
+npm run build    # 本番ビルド
+npm run lint     # ESLint実行
+npm run preview  # ビルド後のプレビュー
+```
+
 ## コーディング方針
 
 ### TypeScript
