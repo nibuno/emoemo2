@@ -55,7 +55,7 @@ function App() {
         </h1>
 
         {/* 2カラムレイアウト */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 justify-center">
           {/* 左側: 設定エリア */}
           <div className="w-80">
             {/* テキスト入力 */}
