@@ -11,7 +11,7 @@ interface PreviewProps {
   settings: PreviewSettings;
   canvasSize: CanvasSize;
   fontFamily: string;
-  fontLabel: string;
+  fontLabel?: string;
 }
 
 function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) {
@@ -90,106 +90,21 @@ function Preview({ settings, canvasSize, fontFamily, fontLabel }: PreviewProps) 
     ctx.restore();
   }, [settings, canvasSize, fontFamily]);
 
-  const handleDownload = () => {
-    // ダウンロード用に128x128固定のCanvasを作成
-    const downloadCanvas = document.createElement("canvas");
-    downloadCanvas.width = canvasSize.width;
-    downloadCanvas.height = canvasSize.height;
-    const ctx = downloadCanvas.getContext("2d");
-    if (!ctx) return;
-
-    // 背景を描画
-    ctx.fillStyle = settings.backgroundColor;
-    ctx.fillRect(0, 0, canvasSize.width, canvasSize.height);
-
-    // テキスト描画（表示用と同じロジック）
-    const lines = settings.text.split("\n");
-    const maxWidth = canvasSize.width * 0.95;
-    const maxHeight = canvasSize.height * 0.95;
-    let fontSize = 200;
-    const lineHeightRatio = 1.15;
-
-    while (fontSize > 1) {
-      ctx.font = `700 ${fontSize}px ${fontFamily}`;
-      const lineHeight = fontSize * lineHeightRatio;
-      const totalHeight = lines.length * lineHeight;
-      if (totalHeight <= maxHeight) break;
-      fontSize -= 1;
-    }
-
-    ctx.font = `700 ${fontSize}px ${fontFamily}`;
-    const maxLineWidth = Math.max(...lines.map((line) => ctx.measureText(line).width));
-    const scaleX = maxLineWidth > maxWidth ? maxWidth / maxLineWidth : 1;
-
-    ctx.fillStyle = settings.textColor;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    const lineHeight = fontSize * lineHeightRatio;
-    const totalHeight = lines.length * lineHeight;
-    const startY = (canvasSize.height - totalHeight) / 2 + lineHeight / 2;
-
-    ctx.save();
-    ctx.translate(canvasSize.width / 2, 0);
-    ctx.scale(scaleX, 1);
-    lines.forEach((line, index) => {
-      const y = startY + index * lineHeight;
-      ctx.fillText(line, 0, y);
-    });
-    ctx.restore();
-
-    // ダウンロード実行
-    downloadCanvas.toBlob((blob) => {
-      if (!blob) return;
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      const fileName = settings.text ? `${settings.text}.png` : "emoji.png";
-      link.href = url;
-      link.download = fileName;
-      link.click();
-      URL.revokeObjectURL(url);
-    }, "image/png");
-  };
-
   return (
     <div className="flex flex-col items-center">
-      <div
-        className="text-sm font-medium text-gray-700 mb-2"
-        style={{ fontFamily, fontWeight: 700 }}
-      >
-        {fontLabel}
-      </div>
+      {fontLabel && (
+        <div
+          className="text-sm font-medium text-gray-700 mb-2"
+          style={{ fontFamily, fontWeight: 700 }}
+        >
+          {fontLabel}
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         className="border-2 border-gray-300 rounded-lg shadow-md"
         style={{ width: canvasSize.width, height: canvasSize.height }}
       />
-      <button
-        onClick={handleDownload}
-        disabled={!settings.text.trim()}
-        className={`mt-2 p-2 rounded-lg transition-colors duration-200 ${
-          settings.text.trim()
-            ? 'text-white cursor-pointer'
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-        }`}
-        style={settings.text.trim() ? { backgroundColor: settings.textColor } : undefined}
-        title="ダウンロード"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-      </button>
     </div>
   );
 }
