@@ -50,119 +50,116 @@ function App() {
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 max-w-4xl mx-auto w-full px-6 py-8">
         {/* ヘッダー */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-8 cursor-default hover:animate-wiggle inline-block">
+        <h1 className="text-2xl font-bold text-gray-900 mb-8 cursor-default hover:animate-wiggle text-center">
           emoemo
         </h1>
 
-        {/* 2カラムレイアウト */}
-        <div className="flex gap-8 justify-center">
-          {/* 左側: 設定エリア */}
-          <div className="w-80">
-            {/* テキスト入力 */}
-            <div className="mb-6">
-              <label className="block text-sm font-bold text-gray-700 mb-2">
-                テキスト
-              </label>
-              <textarea
-                value={settings.text}
-                onChange={(e) => setSettings((prev) => ({ ...prev, text: e.target.value }))}
-                placeholder={"テキストを\n入力してね"}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none text-sm"
-                rows={3}
-              />
-            </div>
+        {/* 1カラムレイアウト */}
+        <div className="max-w-md mx-auto">
+          {/* テキスト入力 */}
+          <div className="mb-6">
+            <label className="block text-sm font-bold text-gray-700 mb-2">
+              テキスト
+            </label>
+            <textarea
+              value={settings.text}
+              onChange={(e) => setSettings((prev) => ({ ...prev, text: e.target.value }))}
+              placeholder={"テキストを\n入力してね"}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none text-sm"
+              rows={3}
+            />
+          </div>
 
-            {/* 色選択 */}
-            <div className="mb-6">
-              <label className="block text-sm font-bold text-gray-700 mb-3">
-                文字色
-              </label>
-              <div className="flex flex-wrap gap-3">
-                {COLORS.map((color) => (
-                  <button
-                    key={color.value}
-                    type="button"
-                    onClick={() => setSettings((prev) => ({ ...prev, textColor: color.value }))}
-                    title={color.label}
-                    className={`w-8 h-8 rounded-full transition-all ${
+          {/* 色選択 */}
+          <div className="mb-6">
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              文字色
+            </label>
+            <div className="flex flex-wrap gap-3">
+              {COLORS.map((color) => (
+                <button
+                  key={color.value}
+                  type="button"
+                  onClick={() => setSettings((prev) => ({ ...prev, textColor: color.value }))}
+                  title={color.label}
+                  className={`w-8 h-8 rounded-full transition-all ${
+                    settings.textColor === color.value
+                      ? "ring-offset-2"
+                      : "hover:scale-110"
+                  }`}
+                  style={{
+                    backgroundColor: color.value,
+                    boxShadow:
                       settings.textColor === color.value
-                        ? "ring-offset-2"
-                        : "hover:scale-110"
-                    }`}
-                    style={{
-                      backgroundColor: color.value,
-                      boxShadow:
-                        settings.textColor === color.value
-                          ? `0 0 0 2px white, 0 0 0 4px ${color.value}`
-                          : undefined,
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* フォント選択 */}
-            <div className="mb-6">
-              <label className="block text-sm font-bold text-gray-700 mb-3">
-                フォント
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {FONTS.map((font) => (
-                  <button
-                    key={font.value}
-                    type="button"
-                    onClick={() => setSettings((prev) => ({ ...prev, fontFamily: font.value }))}
-                    className={`px-3 py-2 rounded-lg text-sm transition-all ${
-                      settings.fontFamily === font.value
-                        ? "bg-gray-900 text-white"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                    style={{ fontFamily: font.value, fontWeight: 700 }}
-                  >
-                    {font.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* ダウンロードボタン */}
-            <div>
-              <button
-                type="button"
-                onClick={handleDownload}
-                disabled={!settings.text.trim()}
-                className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
-                  settings.text.trim()
-                    ? "bg-gray-900 text-white hover:bg-gray-800"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                  />
-                </svg>
-                <span>ダウンロード</span>
-              </button>
+                        ? `0 0 0 2px white, 0 0 0 4px ${color.value}`
+                        : undefined,
+                  }}
+                />
+              ))}
             </div>
           </div>
 
-          {/* 右側: プレビュー */}
-          <div className="flex-shrink-0 flex items-start">
+          {/* フォント選択 */}
+          <div className="mb-6">
+            <label className="block text-sm font-bold text-gray-700 mb-3">
+              フォント
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {FONTS.map((font) => (
+                <button
+                  key={font.value}
+                  type="button"
+                  onClick={() => setSettings((prev) => ({ ...prev, fontFamily: font.value }))}
+                  className={`px-3 py-2 rounded-lg text-sm transition-all ${
+                    settings.fontFamily === font.value
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                  style={{ fontFamily: font.value, fontWeight: 700 }}
+                >
+                  {font.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* プレビュー */}
+          <div className="mb-6 bg-gray-100 rounded-xl p-6 flex justify-center">
             <Preview
               settings={settings}
               canvasSize={CANVAS_SIZE}
               fontFamily={selectedFont.value}
             />
+          </div>
+
+          {/* ダウンロードボタン */}
+          <div>
+            <button
+              type="button"
+              onClick={handleDownload}
+              disabled={!settings.text.trim()}
+              className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                settings.text.trim()
+                  ? "bg-gray-900 text-white hover:bg-gray-800"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              <span>ダウンロード</span>
+            </button>
           </div>
         </div>
       </div>
