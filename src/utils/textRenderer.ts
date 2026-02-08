@@ -122,28 +122,29 @@ export function renderTextToCanvas(
     + gap * (trimmedLines.length - 1);
 
   // 3. トリミング済みの行をキャンバスにフィットさせて描画
+  //    高さ優先：縦はフルに使い、横幅が溢れる場合のみ圧縮する
   const padding = 0.04;
   const maxWidth = canvasWidth * (1 - padding * 2);
   const maxHeight = canvasHeight * (1 - padding * 2);
 
-  const scale = Math.min(maxWidth / totalWidth, maxHeight / totalHeight);
-  const drawTotalWidth = totalWidth * scale;
-  const drawTotalHeight = totalHeight * scale;
-  const offsetX = (canvasWidth - drawTotalWidth) / 2;
+  const scaleY = maxHeight / totalHeight;
+  const scaleX = Math.min(scaleY, maxWidth / totalWidth);
+  const drawTotalHeight = totalHeight * scaleY;
+  const offsetX = (canvasWidth - totalWidth * scaleX) / 2;
   const offsetY = (canvasHeight - drawTotalHeight) / 2;
 
   let currentY = offsetY;
   for (const line of trimmedLines) {
-    const drawWidth = line.width * scale;
-    const drawHeight = line.height * scale;
+    const drawWidth = line.width * scaleX;
+    const drawHeight = line.height * scaleY;
     // 各行を水平方向に中央揃え
-    const drawX = offsetX + (drawTotalWidth - drawWidth) / 2;
+    const drawX = offsetX + (totalWidth * scaleX - drawWidth) / 2;
 
     ctx.drawImage(
       line.canvas,
       line.left, line.top, line.width, line.height,
       drawX, currentY, drawWidth, drawHeight,
     );
-    currentY += drawHeight + gap * scale;
+    currentY += drawHeight + gap * scaleY;
   }
 }
